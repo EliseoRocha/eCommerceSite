@@ -36,7 +36,7 @@ namespace eCommerceSite
             string con = Configuration.GetConnectionString("commercedb");
             services.AddDbContext<CommerceContext>(
                     //Lambda Expression - =>
-                    options => options.UseSqlServer("")
+                    options => options.UseSqlServer(con)
                 );
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
