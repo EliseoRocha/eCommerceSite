@@ -15,5 +15,6 @@ namespace eCommerceSite.Models
 
         //Add all Models (classes) as a DbSet that need to be tracked by the database
         public DbSet<Member> Members { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 }
