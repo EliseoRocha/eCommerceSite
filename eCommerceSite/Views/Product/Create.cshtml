@@ -1,0 +1,17 @@
+﻿@*Enable Model Binding, makes it more dynamic and take out steps*@
+@model Product
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<form asp-action="Create" method="post">
+
+    <label asp-for="Name"></label>
+    <input asp-for="Name" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+    <br /><br />
+    <input type="submit" value="Add Product" />
+
+</form>

@@ -1,0 +1,11 @@
+﻿@*Enable Model Binding, makes it more dynamic and take out steps*@
+@model IEnumerable<Product>
+@{
+    ViewData["Title"] = "Product Catalog";
+}
+
+<a asp-action="Create" asp-controller="Product">Create Product</a>
+
+<h1>All available products</h1>
+
+<p>Sorry, we still need to write the code to show you our products</p>
