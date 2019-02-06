@@ -8,4 +8,35 @@
 
 <h1>All available products</h1>
 
-<p>Sorry, we still need to write the code to show you our products</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(m => m.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.Category)
+            </th>
+            @*TODO: Add Description*@
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Product p in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => p.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => p.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(m => p.Category)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

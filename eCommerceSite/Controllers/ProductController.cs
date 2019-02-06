@@ -9,9 +9,20 @@ namespace eCommerceSite.Controllers
 {
     public class ProductController : Controller
     {
+        //Field
+        //Read only means the constructor can modify the field but nothing else can
+        private readonly CommerceContext context;
+
+        //Constructor
+        public ProductController(CommerceContext dbContext)
+        {
+            context = dbContext;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            List<Product> products = ProductDb.GetProducts(context);
+            return View(products);
         }
         
         public IActionResult Create()
@@ -24,10 +35,12 @@ namespace eCommerceSite.Controllers
         {
             if (ModelState.IsValid)
             {
-                //TODO: Add to DataBase
+                ProductDb.Add(p, context);
+                ViewData["Message"] = $"{p.Name} was added!";
                 return View();
             }
 
+            //Show web page with errors
             return View(p);
         }
     }

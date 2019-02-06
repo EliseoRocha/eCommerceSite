@@ -15,9 +15,12 @@ namespace eCommerceSite.Models
         [StringLength(75)]
         public string Name { get; set; }
 
+        [Required]
+        [StringLength(350)]
         public string Description { get; set; }
 
         [Range(0.0, 1000000.0)]
+        [DataType(DataType.Currency)]
         public double Price { get; set; }
 
         [Required]
