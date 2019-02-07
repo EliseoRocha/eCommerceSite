@@ -23,5 +23,22 @@ namespace eCommerceSite.Models
             //LINQ Method Syntax
             //return context.Products.ToList();
         }
+
+        public static Product GetProduct(CommerceContext context, int id)
+        {
+            //LINQ method syntax - grab product by id
+            Product p2 = context
+                .Products
+                .Where(product => product.ProductID == id)
+                .Single();
+            return p2;
+
+            //LINQ Query Syntax - Grabbing a single product by id
+            Product p = (from prods in context.Products
+                         where prods.ProductID == id
+                         select prods).Single();
+
+            return p;
+        }
     }
 }

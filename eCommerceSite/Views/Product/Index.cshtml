@@ -26,17 +26,25 @@
     <tbody>
         @foreach(Product p in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(m => p.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => p.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(m => p.Category)
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(m => p.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(m => p.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(m => p.Category)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@p.ProductID">Edit Product</a> |
+                <a asp-action="Delete">Delete Product</a>
+            </td>
+            @*<td>
+                <a asp-action="Delete" asp-route-id="@p.ProductID">Delete Product</a> |
+                <a asp-action="Delete">Delete Product</a>
+            </td>*@
+        </tr>
         }
     </tbody>
 </table>
