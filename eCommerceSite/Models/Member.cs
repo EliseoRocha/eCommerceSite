@@ -28,4 +28,13 @@ namespace eCommerceSite.Models
 
 
     }
+
+    //This is a View model for the Login Page
+    public class LoginViewModel
+    {
+        public string Email { get; set; }
+
+        public string Password { get; set; }
+
+    }
 }
