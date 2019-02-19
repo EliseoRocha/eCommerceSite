@@ -35,12 +35,16 @@ namespace eCommerceSite
                 //options.Secure = CookieSecurePolicy.Always;
             });
 
+            //When interface is being injected, pass in object.
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             //Set up session management
             services.AddDistributedMemoryCache(); //stores session in memory by default
             //Configure session options
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(15);
+                options.Cookie.IsEssential = true;
             });
 
             string con = Configuration.GetConnectionString("commercedb");

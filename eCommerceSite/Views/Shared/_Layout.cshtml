@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor SessionData
+@using Microsoft.AspNetCore.Http
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -34,15 +38,26 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Register</a>
-                        </li>
+                        @if (SessionData.HttpContext.Session.GetInt32("Id").HasValue)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="LogOut">Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Register</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
+                            </li>
+                        }
+
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Product" asp-action="Index">View Products</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
-                        </li>
+
                     </ul>
                 </div>
             </div>
@@ -50,6 +65,7 @@
     </header>
     <div class="container">
         <partial name="_CookieConsentPartial" />
+        @SessionData.HttpContext.Session.GetInt32("Id")
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
