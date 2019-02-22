@@ -1,6 +1,7 @@
 ﻿
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor SessionData
 @using Microsoft.AspNetCore.Http
+@using eCommerceSite.Models
 
 <!DOCTYPE html>
 <html>
@@ -8,6 +9,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - eCommerceSite</title>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" 
+          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" 
+          crossorigin="anonymous">
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -17,7 +22,7 @@
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
               crossorigin="anonymous"
-              integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE="/>
+              integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" />
     </environment>
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
@@ -38,7 +43,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        @if (SessionData.HttpContext.Session.GetInt32("Id").HasValue)
+                        @if (SessionHelper.IsUserLoggedIn(SessionData))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-controller="Account" asp-action="LogOut">Logout</a>
@@ -65,6 +70,22 @@
     </header>
     <div class="container">
         <partial name="_CookieConsentPartial" />
+
+        <span class="fas fa-shopping-cart">
+            @{
+                int total = SessionHelper.GetCartTotal(SessionData);
+            }
+            @if (total == 0)
+            {
+                <text>Empty</text>
+            }
+            else
+            {
+                @total
+            }
+
+        </span>
+
         @SessionData.HttpContext.Session.GetInt32("Id")
         <main role="main" class="pb-3">
             @RenderBody()

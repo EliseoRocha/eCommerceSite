@@ -12,10 +12,12 @@ namespace eCommerceSite.Controllers
     public class AccountController : Controller
     {
         private readonly CommerceContext _context;
+        private readonly IHttpContextAccessor _accessor;
 
-        public AccountController(CommerceContext context)
+        public AccountController(CommerceContext context, IHttpContextAccessor accessor)
         {
             _context = context;
+            _accessor = accessor;
         }
 
         [HttpGet]
@@ -31,7 +33,7 @@ namespace eCommerceSite.Controllers
             {
                 //Add to DB
                 MemberDb.AddMember(m, _context);
-                HttpContext.Session.SetInt32("Id", m.MemberID);
+                SessionHelper.LogUserIn(_accessor, m.MemberID);
 
                 //Redirect to index page
                 return RedirectToAction("Index", "Home");
@@ -59,7 +61,7 @@ namespace eCommerceSite.Controllers
                 if (member != null)
                 {
                     //create session
-                    HttpContext.Session.SetInt32("Id", member.MemberID);
+                    SessionHelper.LogUserIn(_accessor, member.MemberID);
                     return RedirectToAction("Index", "Home");
                 }
                 else
