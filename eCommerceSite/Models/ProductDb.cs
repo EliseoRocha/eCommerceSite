@@ -40,5 +40,17 @@ namespace eCommerceSite.Models
 
             return p;
         }
+
+        public static List<Product> GetProductsByPage(CommerceContext context, int pageNum, int pageSize)
+        {
+            int pageOffset = 1;
+
+            //The page number must be offset to get the correct page of products
+            int numRecordsToSkip = (pageNum - pageOffset) * pageSize;
+
+            //MAKE SURE SKIP IS CALLED BEFORE TAKE!
+            return context.Products.OrderBy(p => p.Name).Skip(numRecordsToSkip).Take(pageSize).ToList();
+            
+        }
     }
 }

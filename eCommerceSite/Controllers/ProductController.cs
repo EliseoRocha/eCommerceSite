@@ -19,9 +19,20 @@ namespace eCommerceSite.Controllers
             context = dbContext;
         }
 
-        public IActionResult Index()
+        //The id parameter will represent the page number
+        public IActionResult Index(int? id)
         {
-            List<Product> products = ProductDb.GetProducts(context);
+            //List<Product> products = ProductDb.GetProducts(context);
+
+            //null coalescing operator, This is an alternative
+            //int pageNum = id ?? 1;
+
+            //Conditional/ternary operator; 
+            int pageNum = (id.HasValue) ? id.Value : 1;
+            const int PageSize = 3;
+
+            List<Product> products = ProductDb.GetProductsByPage(context, pageNum, PageSize);
+
             return View(products);
         }
         
