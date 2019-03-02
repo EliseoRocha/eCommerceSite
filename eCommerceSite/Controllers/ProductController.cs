@@ -33,6 +33,11 @@ namespace eCommerceSite.Controllers
 
             List<Product> products = ProductDb.GetProductsByPage(context, pageNum, PageSize);
 
+            //ViewBag/ViewData
+            //ViewBag.MaxPage = 2;
+            ViewData["MaxPage"] = ProductDb.GetMaxPage(context, PageSize);
+            ViewData["CurrentPage"] = pageNum;
+
             return View(products);
         }
         

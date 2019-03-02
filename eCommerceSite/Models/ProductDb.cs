@@ -41,6 +41,23 @@ namespace eCommerceSite.Models
             return p;
         }
 
+        /// <summary>
+        /// Returns total number of pages needed to display all products
+        /// given the pageSize
+        /// </summary>
+        /// <param name="context">The database context</param>
+        /// <param name="pageSize">The num of products per page</param>
+        /// <returns></returns>
+        public static int GetMaxPage(CommerceContext context, int pageSize)
+        {
+            int numProducts = (from p in context.Products
+                               select p).Count();
+
+            double totalPagesPartial = (double)numProducts / pageSize;
+
+            return (int)Math.Ceiling(totalPagesPartial);
+        }
+
         public static List<Product> GetProductsByPage(CommerceContext context, int pageNum, int pageSize)
         {
             int pageOffset = 1;
