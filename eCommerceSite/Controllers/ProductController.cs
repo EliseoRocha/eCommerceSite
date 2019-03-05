@@ -22,10 +22,12 @@ namespace eCommerceSite.Controllers
         //The id parameter will represent the page number
         public IActionResult Index(int? id)
         {
+            #region Comments
             //List<Product> products = ProductDb.GetProducts(context);
 
             //null coalescing operator, This is an alternative
             //int pageNum = id ?? 1;
+            #endregion
 
             //Conditional/ternary operator; 
             int pageNum = (id.HasValue) ? id.Value : 1;
@@ -35,10 +37,12 @@ namespace eCommerceSite.Controllers
 
             //ViewBag/ViewData
             //ViewBag.MaxPage = 2;
-            ViewData["MaxPage"] = ProductDb.GetMaxPage(context, PageSize);
-            ViewData["CurrentPage"] = pageNum;
+            int maxPage = ProductDb.GetMaxPage(context, PageSize);
+            int currPage = pageNum;
 
-            return View(products);
+            var model = new ProductIndexViewModel(products, maxPage, currPage);
+
+            return View(model);
         }
         
         public IActionResult Create()

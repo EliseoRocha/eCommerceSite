@@ -9,7 +9,6 @@ namespace eCommerceSite.Models
     public class Member
     {
         //Data Annotations - Validation and DB markup
-
         [Required]
         public string Name { get; set; }
 
