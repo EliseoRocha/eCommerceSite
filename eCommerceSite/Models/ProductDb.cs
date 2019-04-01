@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +8,53 @@ namespace eCommerceSite.Models
 {
     public static class ProductDb
     {
+        public static List<Product> SearchProducts(CommerceContext context, SearchCriteria criteria)
+        {
+            /*
+             * SELECT *
+             * FROM Product
+             * WHERE Price > criteria.LowPrice AND Price < criteria.HighPrice
+             * */
+
+            //SELECT * FROM Product
+            IQueryable<Product> allProducts = from p in context.Products
+                              select p;
+
+            //Concatenate WHERE Price >= LowPrice
+            if (criteria.LowPrice.HasValue)
+            {
+                allProducts = from p in allProducts
+                              where p.Price >= criteria.LowPrice
+                              select p;
+            }
+
+            //Add high price to the WHERE clause
+            if (criteria.HighPrice.HasValue)
+            {
+                allProducts = from p in allProducts
+                              where p.Price <= criteria.HighPrice
+                              select p;
+            }
+
+            //WHERE Category = criteria.Category
+            if (criteria.Category != null)
+            {
+                allProducts = from p in allProducts
+                              where p.Category == criteria.Category
+                              select p;
+            }
+
+            //Add WHERE LEFT(Name) = criteria.Name
+            if (criteria.Name != null)
+            {
+                allProducts = from p in allProducts
+                              where p.Name.StartsWith(criteria.Name)
+                              select p;
+            }
+
+            return allProducts.ToList();
+        }
+
         public static Product Add(Product p, CommerceContext db)
         {
             db.Products.Add(p);
@@ -58,7 +106,7 @@ namespace eCommerceSite.Models
             return (int)Math.Ceiling(totalPagesPartial);
         }
 
-        public static List<Product> GetProductsByPage(CommerceContext context, int pageNum, int pageSize)
+        public static async Task<List<Product>> GetProductsByPage(CommerceContext context, int pageNum, int pageSize)
         {
             int pageOffset = 1;
 
@@ -66,7 +114,7 @@ namespace eCommerceSite.Models
             int numRecordsToSkip = (pageNum - pageOffset) * pageSize;
 
             //MAKE SURE SKIP IS CALLED BEFORE TAKE!
-            return context.Products.OrderBy(p => p.Name).Skip(numRecordsToSkip).Take(pageSize).ToList();
+            return await context.Products.OrderBy(p => p.Name).Skip(numRecordsToSkip).Take(pageSize).ToListAsync();
             
         }
     }

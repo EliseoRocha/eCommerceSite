@@ -3,7 +3,9 @@
     ViewData["Title"] = "Product Catalog";
 }
 
-<a asp-action="Create" asp-controller="Product">Create Product</a>
+<a asp-action="Create" asp-controller="Product">Create Product</a><br/>
+@*@Html.ActionLink("Search Products", "Search", "Products")*@
+<a asp-action="Search" asp-controller="Product">Search Products</a>
 
 <h1>All available products</h1>
 

@@ -20,7 +20,7 @@ namespace eCommerceSite.Controllers
         }
 
         //The id parameter will represent the page number
-        public IActionResult Index(int? id)
+        public async Task<IActionResult> Index(int? id)
         {
             #region Comments
             //List<Product> products = ProductDb.GetProducts(context);
@@ -33,7 +33,7 @@ namespace eCommerceSite.Controllers
             int pageNum = (id.HasValue) ? id.Value : 1;
             const int PageSize = 3;
 
-            List<Product> products = ProductDb.GetProductsByPage(context, pageNum, PageSize);
+            List<Product> products = await ProductDb.GetProductsByPage(context, pageNum, PageSize);
 
             //ViewBag/ViewData
             //ViewBag.MaxPage = 2;
@@ -107,6 +107,13 @@ namespace eCommerceSite.Controllers
             context.SaveChanges();
 
             return RedirectToAction("Index");
+        }
+
+        public IActionResult Search(SearchCriteria search)
+        {
+            search.Products = ProductDb.SearchProducts(context, search);
+
+            return View(search);
         }
     }
 }
